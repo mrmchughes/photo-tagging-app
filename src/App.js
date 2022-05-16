@@ -1,29 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import GamePage from "./components/GamePage";
 import LeaderboardPage from "./components/LeaderboardPage";
-//import CharacterSelectBox from "./components/CharacterSelectBox";
 
 function App() {
-  const characterSelectBox = document.getElementById("characterSelectBox");
+  const [visible, setVisible] = useState(false);
+  const [correctChoices, setCorrectChoices] = useState([]);
 
   const getClickPosition = (e) => {
-    console.log("getClickPosition");
+    setVisible(!visible);
+
+    if (visible) {
+      document.getElementById("characterSelectBox").style.visibility = "hidden";
+    } else {
+      document.getElementById("characterSelectBox").style.visibility =
+        "visible";
+    }
 
     let parentPosition = getPosition(e.currentTarget);
     let xPosition =
-      e.clientX - parentPosition.x - characterSelectBox.clientWidth / 2;
+      e.clientX -
+      parentPosition.x -
+      document.getElementById("characterSelectBox").clientWidth / 2;
     let yPosition =
-      e.clientY - parentPosition.y - characterSelectBox.clientHeight / 2;
+      e.clientY -
+      parentPosition.y -
+      document.getElementById("characterSelectBox").clientHeight / 2;
 
-    characterSelectBox.style.left = xPosition + "px";
-    characterSelectBox.style.top = yPosition + "px";
+    document.getElementById("characterSelectBox").style.left = xPosition + "px";
+    document.getElementById("characterSelectBox").style.top = yPosition + "px";
   };
 
   const getPosition = (el) => {
-    console.log("getPosition");
-
     let xPos = 0;
     let yPos = 0;
 
@@ -47,12 +56,41 @@ function App() {
     };
   };
 
+  const addCharacter = (character) => {
+    const hasCharacterBeenChosen = correctChoices
+      .map((character) => character.id)
+      .includes(character.id);
+
+    if (hasCharacterBeenChosen) {
+      console.log(
+        "addCharacter called successfully" +
+          character.name +
+          " has already been placed into the correctChoices array"
+      );
+    } else {
+      setCorrectChoices([...correctChoices, character]);
+      console.log(
+        "addCharacter called successfully " +
+          character.name +
+          " has been placed into the correctChoices array"
+      );
+    }
+  };
+
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/game" element={<GamePage />} />
+          <Route
+            path="/game"
+            element={
+              <GamePage
+                getClickPosition={getClickPosition}
+                addCharacter={addCharacter}
+              />
+            }
+          />
           <Route path="/leaderboard" element={<LeaderboardPage />} />
           <Route path="*" element={<p>There is nothing here!</p>} />
         </Routes>

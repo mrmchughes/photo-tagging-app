@@ -11,8 +11,5 @@
 
 #characterSelectBox {
   position: relative;
-  left: 50px;
-  top: 50px;
-  transition: left 0.5s cubic-bezier(0.42, -0.3, 0.78, 1.25),
-    top 0.5s cubic-bezier(0.42, -0.3, 0.78, 1.25);
+  visibility: hidden;
 }
