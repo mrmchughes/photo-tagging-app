@@ -16,16 +16,14 @@ const GamePage = (props) => {
         >
           <div
             id="targetBoxDiv"
-            className="bg-transparent border-solid border border-black rounded-md mt-2.5 mx-1.5 p-1.5 w-28 h-24"
-          >
-            I am a placeholder for the targeting box!
-          </div>
+            className="bg-transparent border-solid border-4 border-black rounded-md mt-2.5 mx-1.5 p-1.5 w-28 h-24"
+          ></div>
           {charactersArray.map((character) => {
             return (
               <button
                 onClick={() => addCharacter(character)}
                 key={character.id}
-                className="bg-gray-200 text-black text-center border-solid border border-black rounded-md mt-2.5 mx-1.5 p-1.5 hover:shadow-lg hover:shadow-slate-500"
+                className="bg-gray-200 text-black text-center border-solid border-2 border-black rounded-md p-1.5 hover:shadow-lg hover:shadow-slate-500"
               >
                 {character.name}
               </button>

@@ -17,7 +17,7 @@ const charactersArray = [
     coordinates: { x: 0, y: 0 },
   },
   {
-    name: "Wizard Whitebeard",
+    name: "Whitebeard",
     id: uniqid(),
     coordinates: { x: 0, y: 0 },
   },
