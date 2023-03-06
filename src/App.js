@@ -4,12 +4,28 @@ import HomePage from "./components/HomePage";
 import GamePage from "./components/GamePage";
 import LeaderboardPage from "./components/LeaderboardPage";
 
+import { db } from "./firebase";
+import { collection, getDocs, query } from "firebase/firestore";
+
 function App() {
   const [visible, setVisible] = useState(false);
   const [correctChoices, setCorrectChoices] = useState([]);
 
+  async function findWaldo() {
+    const charactersRef = collection(db, "character locations");
+    const charactersQuery = query(charactersRef);
+
+    getDocs(charactersQuery).then((snapshot) => {
+      snapshot.docs.forEach((doc) => {
+        console.log(doc.data);
+      });
+    });
+  }
+
   const getClickPosition = (e) => {
     setVisible(!visible);
+
+    findWaldo();
 
     if (visible) {
       document.getElementById("characterSelectBox").style.visibility = "hidden";
@@ -30,6 +46,11 @@ function App() {
 
     document.getElementById("characterSelectBox").style.left = xPosition + "px";
     document.getElementById("characterSelectBox").style.top = yPosition + "px";
+
+    let rect = document
+      .getElementById("characterSelectBox")
+      .getBoundingClientRect();
+    console.log(rect.top, rect.left, rect.right, rect.bottom);
   };
 
   const getPosition = (el) => {
